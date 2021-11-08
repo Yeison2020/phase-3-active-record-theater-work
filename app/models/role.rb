@@ -11,17 +11,23 @@ class Role < ActiveRecord::Base
         end
     end
     def lead
-        if auditions.first == auditions.first
-            auditions.first
+        found = self.auditions.find_by(hired: true)
+
+        if !found 
+            'no actor has been hired for this role'        
         else 
-       'no actor has been hired for this role'
+            found
         end
+        
+   
     end
     def understudy
-        if auditions.last == auditions.last 
-            return auditions.last
+        data = self.auditions.where(hired: true)
+        if data.size > 1
+            data[1]
         else 
-            return 'no actor has been hired for understudy for this role' 
+            'no actor has been hired for understudy for this role'
         end
+        
     end
 end
